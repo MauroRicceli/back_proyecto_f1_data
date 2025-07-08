@@ -1,6 +1,7 @@
 import urllib.parse
 import urllib.request
 from fastapi import APIRouter, HTTPException, Request
+from endpoints.transform.tsf import tsf_datos_piloto
 import json, urllib
 
 
@@ -47,35 +48,61 @@ async def obtener_datos_coche(numero_auto : str, id_meeting : str,id_sesion : st
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error inesperado {e}")
     
-
-    
-@router_ext_api.get("/api_data_retrieve_driver_data", response_description="Devuelve un JSON con la información si todo sale bien")
-async def obtener_datos_piloto(numero_auto : str):
+@router_ext_api.get("/api_data_retrieve_actual_drivers_data", response_description="Devuelve un JSON con la información si todo sale bien")
+async def obtener_datos_pilotos_actuales():
     """
-    Obtienes la información de un piloto específico en su última semana de carreras.
+    Obtienes la información de los pilotos actuales de la F1
 
     Parametros
     ----------
 
-    numero_auto : str
-        -> el numero asignado al piloto que quieres analizar
-
     Retorna
     -------
-    Devuelve un json con todos los datos de ese piloto
+    Devuelve un json con todos los datos de los pilotos
 
     Ejemplo
     -------
-        >>> obtener_datos_piloto(43)
+        >>>> obtener_datos_pilotos_actuales()
         json
     """
 
     url = 'https://api.openf1.org/v1/drivers'
-    parametros = {"driver_number" : numero_auto, "session_key": "latest"}
+    parametros = {"session_key": "latest"}
     try:
         response = urllib.request.urlopen(url= url+"?"+urllib.parse.urlencode(parametros))
-        datos = response.read().decode('utf-8')
-        return datos
+
+        return tsf_datos_piloto(json.loads(response.read().decode('utf-8')))
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error inesperado {e}")
+    
+@router_ext_api.get("/api_data_retrieve_weekend_drivers", response_description="Devuelve un JSON con la información si todo sale bien")
+async def obtener_datos_pilotos_gp(id_meeting : str):
+    """
+    Obtienes la información de los pilotos actuales de la F1
+
+    Parametros
+    ----------
+    
+    id_meeting : str
+        -> el id del GP que quieres los pilotos
+
+    Retorna
+    -------
+    Devuelve un json con todos los datos de los pilotos
+
+    Ejemplo
+    -------
+        >>> obtener_datos_pilotos_gp(24235325)
+        json
+    """
+
+    url = 'https://api.openf1.org/v1/drivers'
+    parametros = {"meeting_key": id_meeting}
+    try:
+        response = urllib.request.urlopen(url= url+"?"+urllib.parse.urlencode(parametros))
+
+        return tsf_datos_piloto(json.loads(response.read().decode('utf-8')))
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error inesperado {e}")

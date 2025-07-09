@@ -1,7 +1,6 @@
 import urllib.parse
 import urllib.request
 from fastapi import APIRouter, HTTPException, Request
-from endpoints.transform.tsf import tsf_datos_piloto
 import json, urllib
 
 
@@ -71,7 +70,7 @@ async def obtener_datos_pilotos_actuales():
     try:
         response = urllib.request.urlopen(url= url+"?"+urllib.parse.urlencode(parametros))
 
-        return tsf_datos_piloto(json.loads(response.read().decode('utf-8')))
+        return json.loads(response.read().decode('utf-8'))
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error inesperado {e}")
@@ -102,7 +101,7 @@ async def obtener_datos_pilotos_gp(id_meeting : str):
     try:
         response = urllib.request.urlopen(url= url+"?"+urllib.parse.urlencode(parametros))
 
-        return tsf_datos_piloto(json.loads(response.read().decode('utf-8')))
+        return json.loads(response.read().decode('utf-8'))
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error inesperado {e}")
@@ -144,7 +143,7 @@ async def obtener_datos_vueltas_piloto(numero_auto:str, id_meeting:str, id_sesio
     
 
 @router_ext_api.get("/api_data_retrieve_grand_prix_data", response_description="Devuelve un JSON con la información si todo sale bien")
-async def obtener_datos_gran_premio(id_meeting:str):
+def obtener_datos_gran_premio(id_meeting:str):
     """
     Obtienes la información del gran premio
 
@@ -169,8 +168,7 @@ async def obtener_datos_gran_premio(id_meeting:str):
     parametros = {'meeting_key':id_meeting}
     try:
         response = urllib.request.urlopen(url=url+'?'+urllib.parse.urlencode(parametros))
-        data = response.read().decode('utf-8')
-        return data
+        return json.loads(response.read().decode('utf-8'))
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f'Se ha encontrado un error inesperado: {e}')
@@ -208,7 +206,7 @@ async def obtener_datos_gran_premio_circuito(nombre_circuito:str):
         raise HTTPException(status_code=500, detail=f'Se ha encontrado un error inesperado: {e}')
     
 @router_ext_api.get("/api_data_retrieve_grand_prix_on_year_data", response_description="Devuelve un JSON con la información si todo sale bien")
-async def obtener_datos_grandes_premios_año(año:int):
+def obtener_datos_grandes_premios_año(año:int):
     """
     Obtienes la información de los grandes premios celebrados en este año
 
@@ -233,8 +231,7 @@ async def obtener_datos_grandes_premios_año(año:int):
     parametros = {'year':año}
     try:
         response = urllib.request.urlopen(url=url+'?'+urllib.parse.urlencode(parametros))
-        data = response.read().decode('utf-8')
-        return data
+        return json.loads(response.read().decode('utf-8'))
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f'Se ha encontrado un error inesperado: {e}')
@@ -242,7 +239,7 @@ async def obtener_datos_grandes_premios_año(año:int):
 
 
 @router_ext_api.get("/api_data_retrieve_grand_prix_results", response_description="Devuelve un JSON con la información si todo sale bien")
-async def obtener_resultados_gran_premio(id_meeting : str):
+def obtener_resultados_gran_premio(id_meeting : str):
     """
     Obtienes la información del resultado del gran premio
 
@@ -267,14 +264,13 @@ async def obtener_resultados_gran_premio(id_meeting : str):
     parametros = {'meeting_key':id_meeting}
     try:
         response = urllib.request.urlopen(url=url+'?'+urllib.parse.urlencode(parametros))
-        data = response.read().decode('utf-8')
-        return data
+        return json.loads(response.read().decode('utf-8'))
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f'Se ha encontrado un error inesperado: {e}')
     
 @router_ext_api.get("/api_data_retrieve_grand_prix_starting_grid", response_description="Devuelve un JSON con la información si todo sale bien")
-async def obtener_parrilla_salida_gran_premio(id_meeting : str):
+def obtener_parrilla_salida_gran_premio(id_meeting : str):
     """
     Obtienes la información de la parrilla del gran premio
 
@@ -299,8 +295,7 @@ async def obtener_parrilla_salida_gran_premio(id_meeting : str):
     parametros = {'meeting_key':id_meeting}
     try:
         response = urllib.request.urlopen(url=url+'?'+urllib.parse.urlencode(parametros))
-        data = response.read().decode('utf-8')
-        return data
+        return json.loads(response.read().decode('utf-8'))
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f'Se ha encontrado un error inesperado: {e}')
@@ -335,8 +330,7 @@ async def obtener_stints_gran_premio(id_meeting : str, numero_coche:str):
     parametros = {'meeting_key':id_meeting, 'driver_number' : numero_coche}
     try:
         response = urllib.request.urlopen(url=url+'?'+urllib.parse.urlencode(parametros))
-        data = response.read().decode('utf-8')
-        return data
+        return json.loads(response.read().decode('utf-8'))
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f'Se ha encontrado un error inesperado: {e}')

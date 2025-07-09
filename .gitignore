@@ -1,3 +1,4 @@
 /api/datos_conexion.py
-__pycache__
+__pycache__/
+*.pyc
 __init__.py

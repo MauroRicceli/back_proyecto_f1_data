@@ -2,7 +2,7 @@ import sqlalchemy as al
 from sqlalchemy.ext.declarative import declarative_base
 from app.connection_info.datos_conexion import datosDB, datosDBCloud
 
-datosDB = datosDBCloud()
+datosDB = datosDB()
 base = declarative_base()
 
 class datosPilotos(base):

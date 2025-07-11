@@ -1,5 +1,5 @@
 import pandas as pd
-from db.db_setup import db
+from app.db.db_setup import db
 
 database = db()
 

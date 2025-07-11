@@ -1,4 +1,4 @@
-from api import app
+from app.api.api import app
 from fastapi import HTTPException, Request
 import time
 

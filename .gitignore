@@ -2,3 +2,6 @@ connection_info/
 __pycache__/
 *.pyc
 __init__.py
+.venv/
+.vscode/
+Dockerfile

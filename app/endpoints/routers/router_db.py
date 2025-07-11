@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Request
-from endpoints.routers.router_interaccion_api_externa import obtener_datos_grandes_premios_año, obtener_resultados_gran_premio
-from endpoints.transform.tsf import tsf_info_grandes_premios_año, tsf_resultados_grandes_premios
+from app.endpoints.routers.router_interaccion_api_externa import obtener_datos_grandes_premios_año, obtener_resultados_gran_premio
+from app.endpoints.transform.tsf import tsf_info_grandes_premios_año, tsf_resultados_grandes_premios
 import asyncio
 
 

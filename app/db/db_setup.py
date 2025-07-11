@@ -1,8 +1,8 @@
 import sqlalchemy as al
 from sqlalchemy.ext.declarative import declarative_base
-from connection_info.datos_conexion import datosDB
+from app.connection_info.datos_conexion import datosDB, datosDBCloud
 
-datosDB = datosDB()
+datosDB = datosDBCloud()
 base = declarative_base()
 
 class datosPilotos(base):
@@ -19,8 +19,12 @@ class datosPilotos(base):
 
 class db():
     def __init__(self):
-          self.engine = al.create_engine(f"mysql+pymysql://{datosDB.user}:{datosDB.password}@{datosDB.ip}:{datosDB.puerto}/{datosDB.db_name}?charset=utf8mb4",pool_recycle=3600)
+          self.engine = al.create_engine(f"mysql+pymysql://{datosDB.user}:{datosDB.password}@{datosDB.ip}:{datosDB.puerto}/{datosDB.db_name}?charset=utf8mb4",pool_recycle=3600,
+                                         connect_args={
+                                                "ssl": {"ssl_mode": "REQUIRED"}
+                                         })
           self.connection = self.engine.connect()
+          self.first_calls()
 
     def first_calls(self):
           base.metadata.create_all(self.engine)

@@ -76,7 +76,7 @@ async def obtener_datos_pilotos_actuales():
         raise HTTPException(status_code=500, detail=f"Error inesperado {e}")
     
 @router_ext_api.get("/api_data_retrieve_weekend_drivers", response_description="Devuelve un JSON con la información si todo sale bien")
-async def obtener_datos_pilotos_gp(id_meeting : str):
+def obtener_datos_pilotos_gp(id_meeting : str):
     """
     Obtienes la información de los pilotos actuales de la F1
 
